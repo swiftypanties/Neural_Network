@@ -205,7 +205,14 @@ public class BackPropagationNet  {
 		File tempFile = new File("/Neural-network/test.txt");
 		boolean exists = tempFile.exists();
 		System.out.println(exists);
-
+		data data_pattern = new data();
+		String [][] study_group = data_pattern.getStudy_group(3);
+		for(int i =0; i<study_group.length;i++){
+			for(int j = 0; j< study_group[i].length; j++){
+				System.out.println(study_group[i][j]);
+			}
+			System.out.println();
+		}
 
 		//TRAINING NETWORK WITHOUT BIAS.
 //		if(! data_obj.SetInputOutput(TrainingInput, TrainingOutput, TrainPatt))
