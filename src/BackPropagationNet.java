@@ -1,7 +1,7 @@
 
 import static java.lang.Math.tanh;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 public class BackPropagationNet  {
@@ -27,7 +27,7 @@ public class BackPropagationNet  {
 	private double[] HiddenLayer; //output of the hidden layer.
 	private double[] WeigthsOut; //weights of the hidden layer.
 	private int[] InputLayer; //input layer-> 100 inputs.
-	private double[][] WeigthsHidd;// matrix
+	private double[][] WeigthsHidd; // matrix
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
@@ -35,7 +35,8 @@ public class BackPropagationNet  {
 		this.HiddenLayer=new double [51];
 		this.WeigthsOut=new double[51];
 		this.InputLayer=new int[101];
-		//this.Initialize();
+		this.WeigthsHidd = new double[51][101];
+		this.Initialize();
 
 	}
 
@@ -119,11 +120,7 @@ public class BackPropagationNet  {
 		}
 		for(int i=0;i<51;i++) {
 			for(int j=0;j<101;j++) {
-				try {
 					WeigthsHidd[i][j] = RandomEqualReal(-1.0, -1.0);
-				}catch (Exception e){
-					System.out.println(" Null point");
-				}
 			}
 		}
 	}
@@ -197,14 +194,17 @@ public class BackPropagationNet  {
 		return this.Threshold;
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) throws IOException {
 		DataNet data_obj = new DataNet();
 		BackPropagationNet back_prop_obj =new BackPropagationNet();
 		boolean flag;
-		File tempFile = new File("/Neural-network/test.txt");
-		boolean exists = tempFile.exists();
-		System.out.println(exists);
+		File path = new File("results.txt");
+		if(path.exists()){ path.delete();}  // delete if exist and create a new one
+		OutputStream outStream = new FileOutputStream(path);
+		outStream.write(("We can write what we want here").getBytes()); // this is how we will write into the file
+		outStream.close();
+
+
 
 
 		//TRAINING NETWORK WITHOUT BIAS.
