@@ -35,7 +35,7 @@ public class BackPropagationNet  {
 		this.HiddenLayer=new double [51];
 		this.WeigthsOut=new double[51];
 		this.InputLayer=new int[101];
-		//this.Initialize();
+		this.Initialize();
 
 	}
 
@@ -120,6 +120,8 @@ public class BackPropagationNet  {
 		for(int i=0;i<51;i++) {
 			for(int j=0;j<101;j++) {
 				try {
+					double b=RandomEqualReal(-1.0, -1.0);
+					System.out.println("b"+b);
 					WeigthsHidd[i][j] = RandomEqualReal(-1.0, -1.0);
 				}catch (Exception e){
 					System.out.println(" Null point");
@@ -204,7 +206,6 @@ public class BackPropagationNet  {
 		boolean flag;
 		File tempFile = new File("/Neural-network/test.txt");
 		boolean exists = tempFile.exists();
-		System.out.println(exists);
 
 
 		//TRAINING NETWORK WITHOUT BIAS.
