@@ -223,6 +223,7 @@ public class BackPropagationNet  {
 		File path = new File("results.txt");
 		if(path.exists()){ path.delete();}  // delete if exist and create a new one
 		OutputStream outStream = new FileOutputStream(path);
+
 		outStream.write(("We can write what we want here").getBytes()); // this is how we will write into the file
 		outStream.close();
 
