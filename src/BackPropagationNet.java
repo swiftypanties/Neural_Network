@@ -1,7 +1,7 @@
 
 import static java.lang.Math.tanh;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 public class BackPropagationNet  {
@@ -15,26 +15,28 @@ public class BackPropagationNet  {
 	//*-----------Final variables-------------
 	public final int Low = -1;
 	public final int Hi = +1;
-	public final int InputNeurons = 25;
-	public final int  HiddenNeurons = 10;
+	public final int InputNeurons = 100;
+	public final int  HiddenNeurons = 50;
 	public final double sqr(double x) {return x*x;}
 
 	//*-----------Local variables-------------
 	private double nu; //The learning rate parameter.
 	private double Threshold;
-	private double OutputLayer;
+	private int OutputLayer;
 	private boolean NetError;
-	private double[] HiddenLayer; //output of the hidden layer.
-	private double[] WeigthsOut; //weights of the hidden layer.
-	private int[] InputLayer; //input layer-> 100 inputs.
-	private double[][] WeigthsHidd;// matrix
+	private double[] HiddenLayer;
+	private double[] WeigthsOut;
+	private int[] InputLayer;
+	private double[][] WeigthsHidd;
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
 		this.nu=0.1;
-		this.HiddenLayer=new double [51];
-		this.WeigthsOut=new double[51];
-		this.InputLayer=new int[101];
+		this.InputLayer=new int[101];// 100 input neurons.
+		this.HiddenLayer=new double [51]; //50 hidden neurons.
+		this.WeigthsOut=new double[51];// weights of the output neuron.
+		this.WeigthsHidd = new double[51][101];//weights of the hidden neurons.
+		this.OutputLayer=100;// one output neuron.
 		this.Initialize();
 
 	}
@@ -48,11 +50,13 @@ public class BackPropagationNet  {
 	//Calculate output for current input (without Bias).
 	private void CalculateOutput(){
 		double Sum;
+		double third= 1.0/3.0;
+		double doubleThird=2*third;
 
 		//Calculate output for hidden layer.
 		for(int i=0; i < HiddenNeurons; i++)
 		{
-			Sum = 0.0f;
+			Sum = 0.0;
 			for(int j=0; j < InputNeurons; j++)
 			{
 				Sum += WeigthsHidd[i][j] * InputLayer[j];
@@ -61,31 +65,47 @@ public class BackPropagationNet  {
 			HiddenLayer[i] = (double)tanh (Sum);
 		}
 		//Calculate output for output layer.
-		Sum = 0.0f;
+		Sum = 0.0;
 
 		for(int n=0; n < HiddenNeurons; n++)
 			Sum += WeigthsOut[n] * HiddenLayer[n];
 
+		System.out.println("sum "+tanh (Sum));
+//		if ((float)tanh (Sum) < (-1*Threshold) )
+//			OutputLayer = 0;
+//
+//		else if ( (float)tanh (Sum) > Threshold )
+//			OutputLayer = 1;
+//		else						                     //We can not decide.
+//			OutputLayer = 2;
 		//Make decision about output neuron.
-		if (tanh (Sum) > Threshold )
-			OutputLayer = 1.0f;
-		else if ( tanh (Sum) < - Threshold )
-			OutputLayer = -1.0f;
-		else						                     //We can not decide.
-			OutputLayer = (double)tanh (Sum);
+		if (tanh (Sum)>=0.0 && tanh (Sum)<third ){
+			OutputLayer = 0; // for rectangle
+//			System.out.println("malben");
+		}
+
+		else if ( tanh (Sum)>=third && tanh (Sum)<doubleThird){
+			OutputLayer = 1; // for triangular
+//			System.out.println("mesolash");
+		}
+
+		else{
+			OutputLayer = 2; //for trapeze
+//			System.out.println("trapeze");
+		}
+
 	}
 
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
 		if(((double)Target - OutputLayer) != 0)
-			NetError = true;
+			this.NetError = true;
 		else
-			NetError = false;
+			this.NetError = false;
 	}
 
 
-	//Without Bias.
 	private void AdjustWeights(int Target){
 		int i, j;
 		double[] hidd_deltas= new double[HiddenNeurons];
@@ -104,8 +124,7 @@ public class BackPropagationNet  {
 		for(i=0; i < HiddenNeurons; i++)
 		{
 			for(j=0; j < InputNeurons+1; j++)
-				WeigthsHidd[i][j] = WeigthsHidd[i][j] +
-						(nu * hidd_deltas[i] * InputLayer[j]);
+				WeigthsHidd[i][j] = WeigthsHidd[i][j] + (nu * hidd_deltas[i] * InputLayer[j]);
 		}
 	}
 
@@ -113,25 +132,22 @@ public class BackPropagationNet  {
 	//-------------Public methods--------------
 	public void Initialize() {
 		this.Threshold=0.8;
-		this.NetError=false;
+		this.NetError=false;// no error at the beginning.
+		// init the weight array of the output layer: 50 weights.
 		for(int i=0;i<51;i++) {
-			this.WeigthsOut[i]= RandomEqualReal(-1.0,-1.0);
+			this.WeigthsOut[i]= RandomEqualReal(-1.0,1.0);
 		}
+		// init the weight array of the hidden layer: 100 weights for each hidden neuron.
 		for(int i=0;i<51;i++) {
 			for(int j=0;j<101;j++) {
-				try {
-					double b=RandomEqualReal(-1.0, -1.0);
-					System.out.println("b"+b);
-					WeigthsHidd[i][j] = RandomEqualReal(-1.0, -1.0);
-				}catch (Exception e){
-					System.out.println(" Null point");
-				}
+				WeigthsHidd[i][j] = RandomEqualReal(-1.0, 1.0);
+
 			}
 		}
 	}
 
 	public boolean TrainNet(DataNet _data) {
-		int Error, j, loop = 0, Success;
+		int Error, j, Success, loop = 0;
 		do
 		{
 			Error = 0;
@@ -143,12 +159,12 @@ public class BackPropagationNet  {
 			{
 				//Set current input.
 				for(j=0; j < InputNeurons; j++)
-					InputLayer[j] = _data.Input[i].inarr[j];
+					InputLayer[j] = _data.Input[i][j];
 				CalculateOutput();
 				ItIsError(_data.Output[i]);
 				//If it was error, change weigths (Error = sum of errors in
 				//one cycle of train).
-				if(NetError)
+				if(this.NetError)
 				{
 					Error ++;
 					AdjustWeights(_data.Output[i]);
@@ -156,8 +172,7 @@ public class BackPropagationNet  {
 			}
 			Success = ((_data.units - Error)*100) / _data.units;
 			System.out.println(Success + "% success");
-			if( Success < 90 ) {Threshold = RandomEqualReal(0.2f, 0.9f);}
-		}while(Success < 90 && loop <= 20000);
+		}while(Success < 90 && loop <= 2000);
 		if(loop > 20000)
 		{
 			System.out.println("Training of network failure !");
@@ -173,13 +188,13 @@ public class BackPropagationNet  {
 		{
 			//Set current input.
 			for(j=0; j < InputNeurons; j++)
-				InputLayer[j] = _data.Input[i].inarr[j];
+				InputLayer[j] = _data.Input[i][j];
 
 			CalculateOutput();
 			ItIsError(_data.Output[i]);
 
 			//Error = sum of errors in this one cycle of test.
-			if(NetError)
+			if(this.NetError)
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
@@ -187,7 +202,7 @@ public class BackPropagationNet  {
 		return Success;
 	}
 
-	public double ReturnOutput() {
+	public int ReturnOutput() {
 		return this.OutputLayer;
 	}
 
@@ -195,39 +210,30 @@ public class BackPropagationNet  {
 		return this.nu;
 	}
 
-	public double ThresholdValue() {
-		return this.Threshold;
-	}
-
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) throws IOException {
 		DataNet data_obj = new DataNet();
 		BackPropagationNet back_prop_obj =new BackPropagationNet();
 		boolean flag;
 		File tempFile = new File("/Neural-network/test.txt");
 		boolean exists = tempFile.exists();
+		System.out.println(exists);
+		File path = new File("results.txt");
+		if(path.exists()){ path.delete();}  // delete if exist and create a new one
+		OutputStream outStream = new FileOutputStream(path);
+		outStream.write(("We can write what we want here").getBytes()); // this is how we will write into the file
+		outStream.close();
 
 
 		//TRAINING NETWORK WITHOUT BIAS.
-//		if(! data_obj.SetInputOutput(TrainingInput, TrainingOutput, TrainPatt))
-//			return;
-//
-//		while ( ! (flag = back_prop_obj.TrainNet( data_obj )))
-//		{
-//			back_prop_obj.Initialize();
-//			close(fd);
-//			remove("result.txt");
-//			fd = open("result.txt", O_CREAT | O_RDWR, 0777);
-//
-//			if( fd == -1 )
-//			{
-//				cout << "Error opening result file" << endl;
-//				return;
-//			}
-//		}
-//
+		data test=new data();
+		if(! data_obj.SetInputOutput(test.getTestShira(), test.getOutputShira(), 9))
+			return;
+		while ( ! (flag = back_prop_obj.TrainNet( data_obj )))
+		{
+			back_prop_obj.Initialize();
+		}
+
 //		//TEST NETWORK.
-//
 //		if(! data_obj.SetInputOutput(TestInput, TestOutput, TestPatt))
 //			return;
 //
