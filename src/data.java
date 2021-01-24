@@ -2,6 +2,7 @@
 public class data {
     public static String[][] study_group ;
     public String[][][] all_input;
+    public static String[][] test_group;
     String[][] InputPattern1 = {{"----------",
                                 "---****---",
                                 "--*----*--",
@@ -603,20 +604,21 @@ public class data {
                                 "----------",
                                 "----------"}};
     public data(){
+
         all_input =new String[20][3][10];
-        all_input[0] = InputPattern1;
-        all_input[1] = InputPattern2;
-        all_input[2] = InputPattern3;
+        all_input[10] = InputPattern1;
+        all_input[13] = InputPattern2;
+        all_input[12] = InputPattern3;
         all_input[3] = InputPattern4;
         all_input[4] = InputPattern5;
         all_input[5] = InputPattern6;
         all_input[6] = InputPattern7;
         all_input[7] = InputPattern8;
         all_input[8] = InputPattern9;
-        all_input[9] = InputPattern10;
-        all_input[10] = InputPattern11;
-        all_input[11] = InputPattern12;
-        all_input[12] = InputPattern13;
+        all_input[0] = InputPattern10;
+        all_input[11] = InputPattern11;
+        all_input[1] = InputPattern12;
+        all_input[2] = InputPattern13;
         all_input[13] = InputPattern14;
         all_input[14] = InputPattern15;
         all_input[15] = InputPattern16;
@@ -624,20 +626,36 @@ public class data {
         all_input[17] = InputPattern18;
         all_input[18] = InputPattern19;
         all_input[19] = InputPattern20;
-
+        study_group = null;
+        test_group = null;
     }
-    public String[][] getStudy_group(int num){
-        study_group = new String[num*3][10];
-        int index =0;
-        for(int i = 0;i<num;i++){
-            for(int j =0 ;j<all_input[i].length;j++){
-                for(int k = 0; k<all_input[i][j].length;k++){
+    public void setStudy_group(int num) {
+        if (num >= all_input.length) return;
+        test_group = new String[3][10];
+        study_group = new String[num * 3][10];
+        int index = 0;
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j < all_input[i].length; j++) {
+                for (int k = 0; k < all_input[i][j].length; k++) {
                     study_group[index][k] = all_input[i][j][k];
                 }
                 index++;
             }
         }
-        return study_group;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < all_input[num].length; j++) {
+                for (int k = 0; k < all_input[num][j].length; k++) {
+                    test_group[i][k] = all_input[i][j][k];
+                }
+                index++;
+            }
+        }
     }
 
+    public String[][] getStudy_group() {
+        return study_group;
+    }
+    public String[][] getTest_group(){
+        return test_group;
+    }
 }

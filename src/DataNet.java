@@ -10,43 +10,36 @@ public class DataNet {
     public int TrainPatt = 50;
     public int TestPatt = 10;
 
-    public class InArr{
-        public int[] inarr;
-        public InArr(){
-            inarr = new int[InputNeurons];
-        }
 
-    }
-
-    public InArr[] Input;
+    public int[][] Input;
     public int Output[];
     public int units;
 
     public DataNet(){
         this.Input = null;
-        this.Output = new int[Output_Shapes];
+        this.Output = null ;
         this.units = 0;
 
     }
 
-    public boolean SetInputOutput(String[][] In,char[] Out, int number) {
+    public boolean SetInputOutput(String[][] In,String Out, int number) {
         int n, i, j;
 
         if (units != number) {
             units = number;
-            this.Input = new InArr[number];
-        }
+            this.Input = new int[number][InputNeurons];
 
+       }
         for(n=0; n < units; n++){ //Set input vectors.
             for(i=0; i < Y; i++){
-                for(j=0; j < (X-1); j++)
-                    Input[n].inarr[i*(X)+j] = (In[n][i].charAt(j) == '*') ? Hi : Low;
+                for(j=0; j < X; j++)
+                    Input[n][i*(X)+j] = (In[n][i].charAt(j) == '*') ? Hi : Low;
             }
         }
-
+        this.Output  = new int[In.length];
         //Set corresponding to input expected output.
         for(i=0; i < units; i++){
-            switch (Out[i]){
+            switch (Out.charAt(i)){
                 case '*':
                     Output[i] = Shapes.rectangle.ordinal();
 
@@ -55,7 +48,6 @@ public class DataNet {
 
                 case '_':
                     Output[i] = Shapes.trapeze.ordinal();
-
             }
         }
         return true;
