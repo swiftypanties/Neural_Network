@@ -174,7 +174,7 @@ public class BackPropagationNet  {
 				}
 			}
 			Success = ((_data.units - Error)*100) / _data.units;
-			outStream.write(("\n"+Success + "% success").getBytes());
+			outStream.write(("\n"+Success + "% success"+"\n").getBytes());
 		}while(Success < 90 && loop <= 20000);
 		if(loop > 20000)
 		{
@@ -225,7 +225,7 @@ public class BackPropagationNet  {
 		data test=new data();
 		String output = "_+*+*_*+_";
 		test.setStudy_group(3);
-		outStream.write(("\n"+"Here we go").getBytes());
+		outStream.write(("Here we go").getBytes());
 		if(! data_obj.SetInputOutput(test.getStudy_group(),output, 9))
 			return;
 		while( (flag =! back_prop_obj.TrainNet( data_obj, outStream )))
