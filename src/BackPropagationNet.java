@@ -73,7 +73,7 @@ public class BackPropagationNet  {
 		for(int n=0; n < HiddenNeurons; n++)
 			Sum += WeigthsOut[n] * HiddenLayer[n];
 
-		System.out.println("sum "+tanh (Sum));
+		//System.out.println("sum "+tanh (Sum));
 //		if ((float)tanh (Sum) < (-1*Threshold) )
 //			OutputLayer = 0;
 //
@@ -149,13 +149,13 @@ public class BackPropagationNet  {
 		}
 	}
 
-	public boolean TrainNet(DataNet _data) {
+	public boolean TrainNet(DataNet _data, OutputStream outStream) throws IOException {
 		int Error, j, Success, loop = 0;
 		do
 		{
 			Error = 0;
 			loop ++;
-			System.out.println("Im Looping at - "+ loop);
+			outStream.write(("\n"+"Training loop num : "+ loop).getBytes());
 
 			//Train network (do one cycle).
 			for(int i=0; i < _data.units; i++)
@@ -174,17 +174,17 @@ public class BackPropagationNet  {
 				}
 			}
 			Success = ((_data.units - Error)*100) / _data.units;
-			System.out.println(Success + "% success");
+			outStream.write(("\n"+Success + "% success").getBytes());
 		}while(Success < 90 && loop <= 20000);
 		if(loop > 20000)
 		{
-			System.out.println("Training of network failure !");
+			outStream.write(("\n"+"Training of network failure !").getBytes());
 			return false;
 		}
 		return true;
 	}
 
-	public int TestNet(DataNet _data) {
+	public int TestNet(DataNet _data, OutputStream outStream) throws IOException {
 		int Error = 0, j, Success;
 		//Train network (do one cycle).
 		for(int i=0; i < _data.units; i++)
@@ -201,7 +201,7 @@ public class BackPropagationNet  {
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
-		System.out.println(Success+" % success");
+		outStream.write(("\n"+Success + "% success").getBytes());
 		return Success;
 	}
 
@@ -219,26 +219,23 @@ public class BackPropagationNet  {
 		boolean flag;
 		File tempFile = new File("/Neural-network/test.txt");
 		boolean exists = tempFile.exists();
-		System.out.println(exists);
 		File path = new File("results.txt");
 		if(path.exists()){ path.delete();}  // delete if exist and create a new one
 		OutputStream outStream = new FileOutputStream(path);
-
-		outStream.write(("We can write what we want here").getBytes()); // this is how we will write into the file
-		outStream.close();
-
 		data test=new data();
 		String output = "_+*+*_*+_";
 		test.setStudy_group(3);
+		outStream.write(("\n"+"Here we go").getBytes());
 		if(! data_obj.SetInputOutput(test.getStudy_group(),output, 9))
 			return;
-		while ( ! (flag = back_prop_obj.TrainNet( data_obj )))
+		while( (flag =! back_prop_obj.TrainNet( data_obj, outStream )))
 		{
 			back_prop_obj.Initialize();
 		}
 		output = "+_*";
-		if(! data_obj.SetInputOutput(test.getTest_group(),output, 3))
+		if(!data_obj.SetInputOutput(test.getTest_group(),output, 3))
 			return;
-		back_prop_obj.TestNet( data_obj );
+		back_prop_obj.TestNet(data_obj, outStream );
+		outStream.close();
 	}
 }
