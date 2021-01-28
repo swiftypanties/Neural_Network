@@ -25,11 +25,10 @@ public class DataNet {
     public boolean SetInputOutput(String[][] In,String Out, int number) {
         int n, i, j;
 
-        if (units != number) {
-            units = number;
-            this.Input = new int[number][InputNeurons];
+        units = number;
+        this.Input = new int[number][InputNeurons];
 
-       }
+
         for(n=0; n < units; n++){ //Set input vectors.
             for(i=0; i < Y; i++){
                 for(j=0; j < X; j++)
@@ -38,16 +37,16 @@ public class DataNet {
         }
         this.Output  = new int[In.length];
         //Set corresponding to input expected output.
-        for(i=0; i < units; i++){
+        for(i=0; i < Output.length; i++){
             switch (Out.charAt(i)){
                 case '*':
-                    Output[i] = Shapes.rectangle.ordinal();
-
-                case '+':
                     Output[i] = Shapes.triangular.ordinal();
 
-                case '_':
+                case '+':
                     Output[i] = Shapes.trapeze.ordinal();
+
+                case '_':
+                    Output[i] = Shapes.rectangle.ordinal();
             }
         }
         return true;

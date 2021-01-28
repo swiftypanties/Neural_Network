@@ -1,5 +1,3 @@
 
 
-public enum Shapes{rectangle ,
-    triangular,
-    trapeze}
+public enum Shapes{triangular, trapeze,rectangle}
