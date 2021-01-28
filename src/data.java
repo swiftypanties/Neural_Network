@@ -647,13 +647,19 @@ public class data {
             for (int j = 0; j < all_input[i].length; j++) {
                 for (int k = 0; k < all_input[i][j].length; k++) {
                     study_group[index][k] = all_input[i][j][k];
-                    switch (j){
-                        case 0:
-                            output_result += "*";
-                        case 1:
-                            output_result += "+";
-                        case 2:
-                            output_result += "_";
+                }
+                switch (j){
+                    case 0: {
+                        output_result += "*";
+                        break;
+                    }
+                    case 1: {
+                        output_result += "+";
+                        break;
+                    }
+                    case 2: {
+                        output_result += "_";
+                        break;
                     }
                 }
                 index++;
@@ -663,23 +669,29 @@ public class data {
             for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
                     test_group[i][k] = all_input[num][j][k];
-                    switch (j){
-                        case 0:
-                            output_test += "*";
-                        case 1:
-                            output_test += "+";
-                        case 2:
-                            output_test += "_";
+                }
+                switch (j){
+                    case 0: {
+                        output_test += "*";
+                        break;
+                    }
+                    case 1: {
+                        output_test += "+";
+                        break;
+                    }
+                    case 2: {
+                        output_test += "_";
+                        break;
                     }
                 }
             }
         }
 
     }
-    public void setStudy_group_random(int num){
-        int n = 0 ;
+    public void setStudy_group_random(int num) {
+        int n = 0;
         if (num >= all_input.length) return;
-        int[] order_shape = new int[num*3];
+        int[] order_shape = new int[num * 3];
         int[] order_arr = setrandom(num);
         test_group = new String[3][10];
         study_group = new String[num * 3][10];
@@ -691,37 +703,56 @@ public class data {
                     study_group[order_arr[n]][k] = all_input[i][j][k];
                 }
                 switch (j) {
-                    case 0:
+                    case 0: {
                         order_shape[order_arr[n]] = Shapes.triangular.ordinal();
-                    case 1:
+                        break;
+                    }
+                    case 1: {
                         order_shape[order_arr[n]] = Shapes.trapeze.ordinal();
-                    case 2:
+                        break;
+                    }
+                    case 2: {
                         order_shape[order_arr[n]] = Shapes.rectangle.ordinal();
+                        break;
+                    }
                 }
                 n++;
             }
         }
-        for(int i =0 ;i<order_shape.length;i++){
-            switch (order_shape[i]){
-                case 0:
+        for (int i = 0; i < order_shape.length; i++) {
+//            System.out.println(order_shape[i]);
+            switch (order_shape[i]) {
+                case 0: {
                     output_result += "*";
-                case 1:
+                    break;
+                }
+                case 1: {
                     output_result += "+";
-                case 2:
+                    break;
+                }
+                case 2: {
                     output_result += "_";
+                    break;
+                }
             }
         }
         for (int i = 0; i < 3; i++) {
-            for (int j =0 ; j<all_input[num].length;j++) {
+            for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
                     test_group[i][k] = all_input[num][j][k];
-                    switch (i){
-                        case 0:
-                            output_test += "*" ;
-                        case 1:
-                            output_test += "+";
-                        case 2:
-                            output_test += "_" ;
+                }
+                switch (j) {
+                    case 0: {
+                        output_test += "*";
+                        break;
+                    }
+                    case 1: {
+                        output_test += "+";
+                        break;
+                    }
+                    case 2: {
+                        output_test += "_";
+                        break;
                     }
                 }
             }

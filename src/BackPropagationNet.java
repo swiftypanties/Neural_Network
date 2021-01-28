@@ -25,23 +25,23 @@ public class BackPropagationNet  {
 	//*-----------Local variables-------------
 	private double nu; //The learning rate parameter.
 	private double Threshold;
-	private int OutputLayer;
+	private double OutputLayer;
 	private boolean NetError;
-	private double[] HiddenLayer1;
-	private double[] HiddenLayer2;
+	private double[] HiddenLayer;
+//	private double[] HiddenLayer2;
 	private double[] WeigthsOut;
 	private int[] InputLayer;
-	private double[][] WeigthsHidd1;
-	private double[][] WeigthsHidd2;
+	private double[][] WeigthsHidd;
+//	private double[][] WeigthsHidd2;
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
 		this.nu=0.1;
 		this.InputLayer=new int[101];// 100 input neurons.
-		this.HiddenLayer1 =new double [51];
-		this.HiddenLayer2 =new double [51]; //50 hidden neurons.
+		this.HiddenLayer =new double [51];
+//		this.HiddenLayer2 =new double [51]; //50 hidden neurons.
 		this.WeigthsOut=new double[51];// weights of the output neuron.
-		this.WeigthsHidd1 = new double[51][101];//weights of the hidden neurons.
+		this.WeigthsHidd = new double[51][101];//weights of the hidden neurons.
 		this.OutputLayer=100;//
 		this.Initialize();// one output neuron.
 
@@ -65,25 +65,18 @@ public class BackPropagationNet  {
 			Sum = 0.0;
 			for(int j=0; j < InputNeurons; j++)
 			{
-				Sum += WeigthsHidd1[i][j] * InputLayer[j];
+				Sum += WeigthsHidd[i][j] * InputLayer[j];
 			}
 
-			HiddenLayer1[i] = (double)tanh (Sum);
+			HiddenLayer[i] = (double)tanh (Sum);
 		}
 		//Calculate output for output layer.
 		Sum = 0.0;
 
 		for(int n=0; n < HiddenNeurons; n++)
-			Sum += WeigthsOut[n] * HiddenLayer1[n];
+			Sum += WeigthsOut[n] * HiddenLayer[n];
 
 		//System.out.println("sum "+tanh (Sum));
-//		if ((float)tanh (Sum) < (-1*Threshold) )
-//			OutputLayer = 0;
-//
-//		else if ( (float)tanh (Sum) > Threshold )
-//			OutputLayer = 1;
-//		else						                     //We can not decide.
-//			OutputLayer = 2;
 		//Make decision about output neuron.
 		if (tanh (Sum)>=0.0 && tanh (Sum)<third ){
 			OutputLayer = 0; // for rectangle
@@ -99,13 +92,13 @@ public class BackPropagationNet  {
 			OutputLayer = 2; //for trapeze
 //			System.out.println("trapeze");
 		}
-
+//
 	}
 
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
-		if(((double)Target - OutputLayer) != 0)
+		if(((double)Target - OutputLayer) != 0.0)
 			this.NetError = true;
 		else
 			this.NetError = false;
@@ -121,16 +114,16 @@ public class BackPropagationNet  {
 		out_delta = (1 - sqr(OutputLayer)) * (Target - OutputLayer);
 
 		for(i=0; i < HiddenNeurons; i++)
-			hidd_deltas[i] = (1 - sqr(HiddenLayer1[i])) * out_delta * WeigthsOut[i];
+			hidd_deltas[i] = (1 - sqr(HiddenLayer[i])) * out_delta * WeigthsOut[i];
 
 		//Change weigths.
 		for(i=0; i < HiddenNeurons; i++)
-			WeigthsOut[i] = WeigthsOut[i]+(nu * out_delta * HiddenLayer1[i]);
+			WeigthsOut[i] = WeigthsOut[i]+(nu * out_delta * HiddenLayer[i]);
 
 		for(i=0; i < HiddenNeurons; i++)
 		{
 			for(j=0; j < InputNeurons+1; j++)
-				WeigthsHidd1[i][j] = WeigthsHidd1[i][j] + (nu * hidd_deltas[i] * InputLayer[j]);
+				WeigthsHidd[i][j] = WeigthsHidd[i][j] + (nu * hidd_deltas[i] * InputLayer[j]);
 		}
 	}
 
@@ -146,7 +139,7 @@ public class BackPropagationNet  {
 		// init the weight array of the hidden layer: 100 weights for each hidden neuron.
 		for(int i=0;i<51;i++) {
 			for(int j=0;j<101;j++) {
-				WeigthsHidd1[i][j] = RandomEqualReal(-1.0, 1.0);
+				WeigthsHidd[i][j] = RandomEqualReal(-1.0, 1.0);
 
 			}
 		}
@@ -178,8 +171,9 @@ public class BackPropagationNet  {
 			}
 			Success = ((_data.units - Error)*100) / _data.units;
 			outStream.write(("\n"+Success + "% success"+"\n").getBytes());
-		}while(Success < 80 && loop <= 20000);
-		if(loop > 20000)
+//			if( Success < 80) {Threshold = RandomEqualReal(0.2f, 0.9f);}
+		}while(Success < 80 && loop <= 2000);
+		if(loop > 2000)
 		{
 			outStream.write(("\n"+"Training of network failure !").getBytes());
 			return false;
@@ -208,7 +202,7 @@ public class BackPropagationNet  {
 		return Success;
 	}
 
-	public int ReturnOutput() {
+	public double ReturnOutput() {
 		return this.OutputLayer;
 	}
 

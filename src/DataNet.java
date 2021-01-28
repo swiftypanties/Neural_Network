@@ -39,14 +39,19 @@ public class DataNet {
         //Set corresponding to input expected output.
         for(i=0; i < Output.length; i++){
             switch (Out.charAt(i)){
-                case '*':
+                case '*': {
                     Output[i] = Shapes.triangular.ordinal();
-
-                case '+':
+                    break;
+                }
+                case '+': {
                     Output[i] = Shapes.trapeze.ordinal();
+                    break;
+                }
 
-                case '_':
+                case '_': {
                     Output[i] = Shapes.rectangle.ordinal();
+                    break;
+                }
             }
         }
         return true;
