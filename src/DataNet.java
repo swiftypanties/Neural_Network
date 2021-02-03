@@ -5,8 +5,6 @@ public class DataNet {
     public int Output_Shapes = 3;
     public int Low = -1;
     public int Hi = 1;
-    public int X = 5;
-    public int Y = 5;
     public int TrainPatt = 50;
     public int TestPatt = 10;
 
@@ -24,18 +22,21 @@ public class DataNet {
 
     public boolean SetInputOutput(String[][] In,String Out, int number) {
         int n, i, j;
-
-        units = number;
+        this.units = number;
         this.Input = new int[number][InputNeurons];
 
-
         for(n=0; n < units; n++){ //Set input vectors.
-            for(i=0; i < Y; i++){
-                for(j=0; j < X; j++)
-                    Input[n][i*(X)+j] = (In[n][i].charAt(j) == '*') ? Hi : Low;
+            for(i=0; i < 10; i++){
+                for(j=0; j < 10; j++)
+                    if(In[n][i].charAt(j) == '*'){
+                        Input[n][i*(10)+j] = Hi;
+                    }
+                    else{
+                        Input[n][i*(10)+j] = Low;
+                    }
             }
         }
-        this.Output  = new int[In.length];
+        this.Output  = new int[number];
         //Set corresponding to input expected output.
         for(i=0; i < Output.length; i++){
             switch (Out.charAt(i)){
