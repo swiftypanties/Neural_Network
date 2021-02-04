@@ -9,11 +9,6 @@ import java.io.OutputStream;
 import java.util.*;
 
 public class BackPropagationNet  {
-	//*====== add
-	public int Output_Shapes = 3;
-	public int TrainPatt = 50;
-	public int TestPatt = 10;
-
 	//*-----------Final variables-------------
 	public final int Low = -1;
 	public final int Hi = 1;
@@ -23,22 +18,18 @@ public class BackPropagationNet  {
 
 	//*-----------Local variables-------------
 	private double nu; //The learning rate parameter.
-	private double Threshold;
 	private int OutputLayer;
 	private boolean NetError;
 	private double[] HiddenLayer;
-//	private double[] HiddenLayer2;
 	private double[] WeigthsOut;
 	private int[] InputLayer;
 	private double[][] WeigthsHidd;
-//	private double[][] WeigthsHidd2;
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
 		this.nu=0.1;
 		this.InputLayer=new int[101];// 100 input neurons.
 		this.HiddenLayer =new double [51];
-//		this.HiddenLayer2 =new double [51]; //50 hidden neurons.
 		this.WeigthsOut=new double[51];// weights of the output neuron.
 		this.WeigthsHidd = new double[51][101];//weights of the hidden neurons.
 		this.OutputLayer=100;//
@@ -50,7 +41,6 @@ public class BackPropagationNet  {
 
 	private double RandomEqualReal(double Low, double High) {
 		double ans= ((double) Math.random()) * (High - Low) + Low;
-		System.out.println("weight "+ans);
 		return ans;
 	}
 	private double sigmoid(double Sum){
@@ -81,11 +71,6 @@ public class BackPropagationNet  {
 		for(int n=0; n < HiddenNeurons; n++)
 			Sum += WeigthsOut[n] * HiddenLayer[n];
 
-		//System.out.println("sum "+tanh (Sum));
-		//Make decision about output neuron.
-		System.out.println("sum "+Sum);
-		System.out.println("sigmoid(Sum) "+sigmoid(Sum));
-
 		if (sigmoid(Sum)>=0.0 && sigmoid(Sum)<third ){
 			this.OutputLayer = 0; // for triangular(mesolash)
 		}
@@ -103,7 +88,7 @@ public class BackPropagationNet  {
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
-		if(((double)Target - this.OutputLayer) != 0.0)
+		if((Target - this.OutputLayer) != 0)
 			this.NetError = true;
 		else
 			this.NetError = false;
@@ -120,7 +105,7 @@ public class BackPropagationNet  {
 		out_delta = divSigmoid(OutputLayer) * (Target - OutputLayer);
 
 		for(i=0; i < HiddenNeurons; i++)
-			hidd_deltas[i] = divSigmoid(OutputLayer) * out_delta * WeigthsOut[i];
+			hidd_deltas[i] = divSigmoid(HiddenLayer[i]) * out_delta * WeigthsOut[i];
 
 		//Change weigths.
 		for(i=0; i < HiddenNeurons; i++)
@@ -136,7 +121,6 @@ public class BackPropagationNet  {
 
 	//-------------Public methods--------------
 	public void Initialize() {
-		this.Threshold=0.8;
 		this.NetError=false;// no error at the beginning.
 		// init the weight array of the output layer: 50 weights.
 		for(int i=0;i<51;i++) {
@@ -166,10 +150,7 @@ public class BackPropagationNet  {
 				for(j=0; j < InputNeurons; j++)
 					InputLayer[j] = _data.Input[i][j];
 				CalculateOutput();
-				System.out.println("output "+ReturnOutput());
 				ItIsError(_data.Output[i]);
-				//If it was error, change weigths (Error = sum of errors in
-				//one cycle of train).
 				if(this.NetError)
 				{
 					Error ++;
@@ -204,7 +185,7 @@ public class BackPropagationNet  {
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
-		outStream.write(("\n"+Success + "% success").getBytes());
+		outStream.write(("Test network's success\n"+Success + "% success").getBytes());
 		return Success;
 	}
 
@@ -215,17 +196,13 @@ public class BackPropagationNet  {
 	public double LearningRate() {
 		return this.nu;
 	}
-	public double ThresholdValue() {
-		return this.Threshold;
-	}
-
 
 	public static void main(String[] args) throws IOException {
 
 		BackPropagationNet back_prop_obj = new BackPropagationNet();
 		boolean flag = true;
 		//-------------------------- 5 sorted
-		File path1 = new File("5 sorted.txt");
+		File path1 = new File("5 sorted one layer.txt");
 		if (path1.exists()) {
 			path1.delete();
 		}  // delete if exist and create a new one
@@ -233,13 +210,23 @@ public class BackPropagationNet  {
 		data test_sort5 = new data();
 		DataNet data_obj = new DataNet();
 		test_sort5.setStudy_group_sorted(5);
-		data test_shira = new data();
 		back_prop_obj.Initialize();
+		data test_shira= new data();
 		outStreamS5.write(("Start Train 5 sorted study groups").getBytes());
+		//---------- shira test----------//
+//		if(! data_obj.SetInputOutput(test_shira.getGroupShira(), test_shira.getOutPutGroupShira(), 12))
+//			return;
+//
+//		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
+//			back_prop_obj.Initialize();
+//		}
+//		if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getTestOutPut(), 3))
+//			return;
+//		back_prop_obj.TestNet(data_obj, outStreamS5);
+//		outStreamS5.close();
 		if(! data_obj.SetInputOutput(test_sort5.getStudy_group(), test_sort5.output_result, 15))
 			return;
-//		if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getOutPutTestShira(), 15))
-//			return;
+
 		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
 			back_prop_obj.Initialize();
 		}

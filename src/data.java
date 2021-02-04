@@ -8,7 +8,8 @@ public class data {
     public String output_result;
     public String output_test;
     public String [][] testShira;
-    public String outPutTestShira;
+    public String outPutGroupShira;
+    private String outPutTestShira;
     String[][] InputPattern1 = {{"----------",
             "----*-----",
             "----**----",
@@ -509,7 +510,7 @@ public class data {
                     "------*--*",
                     "------*--*",
                     "------*--*",
-                    "-------**-",
+                    "------*--*",
                     "---------*"},
             {"----------",
                     "----------",
@@ -613,6 +614,37 @@ public class data {
                     "----------",
                     "----------"}};
 
+    String[][] testOutputShira={
+            {"----------",
+                    "----*-----",
+                    "----**----",
+                    "----*-*---",
+                    "----*--*--",
+                    "----*---*-",
+                    "----******",
+                    "----------",
+                    "----------",
+                    "----------"},
+            {"----------",
+                    "---****---",
+                    "--*----*--",
+                    "-*------*-",
+                    "**********",
+                    "----------",
+                    "----------",
+                    "----------",
+                    "----------",
+                    "----------"},
+            {"----------",
+                    "-********-",
+                    "-*------*-",
+                    "-*------*-",
+                    "-*------*-",
+                    "-*------*-",
+                    "-*------*-",
+                    "-*------*-",
+                    "-********-",
+                    "----------"}};
 
 
     String[][] InputPatternShira = {{"----------",
@@ -633,7 +665,7 @@ public class data {
                     "------*--*",
                     "------*--*",
                     "------*--*",
-                    "-------**-",
+                    "------*--*",
                     "---------*"},
             {"----------",
                     "----------",
@@ -675,36 +707,7 @@ public class data {
                     "-*****--*-",
                     "------**--",
                     "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "-------**-",
-                    "------*-*-",
-                    "-----*--*-",
-                    "-----*--*-",
-                    "------*-*-",
-                    "-------**-"},
-            {"----------",
-                    "----*-----",
-                    "----**----",
-                    "----*-**--",
-                    "----*--*--",
-                    "----*--*--",
-                    "----*--*--",
-                    "----*-*---",
-                    "----**----",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "-*******--",
-                    "-*-----*--",
-                    "-*-----*--",
-                    "--*-----*-",
-                    "-*------*-",
-                    "-*--*--*--",
-                    "-***-***--"},
+
             {"----*-----",
                     "---*-*----",
                     "--*---*---",
@@ -766,6 +769,7 @@ public class data {
                     "----------",
                     "----------"}};
 
+
     public data(){
 
         all_input =new String[20][3][10];
@@ -794,14 +798,20 @@ public class data {
         output_test = "";
         output_result = "";
 
-
-        outPutTestShira="*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_";
+        outPutTestShira="*+_*+_";
+        outPutGroupShira="*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_";
     }
-    public String getOutPutTestShira(){
-        return this.outPutTestShira;
+    public String getOutPutGroupShira(){
+        return this.outPutGroupShira;
+    }
+    public String[][] getGroupShira(){
+        return this.InputPatternShira;
     }
     public String[][] getTestShira(){
-        return this.InputPatternShira;
+        return this.testOutputShira;
+    }
+    public String getTestOutPut(){
+        return outPutTestShira;
     }
     public void setStudy_group_sorted(int num) {
         if (num >= all_input.length) return;
