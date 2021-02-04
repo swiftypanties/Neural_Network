@@ -54,7 +54,7 @@ public class BackPropagationNet  {
 		return ans;
 	}
 	private double sigmoid(double Sum){
-		double func=1.0/(1+exp(-Sum));
+		double func=1.0/(1.0+exp(-Sum));
 		return func;
 	}
 
@@ -204,7 +204,7 @@ public class BackPropagationNet  {
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
-		outStream.write(("\n"+Success + "% success").getBytes());
+		outStream.write(("\n"+Success + "% TestNet Success").getBytes());
 		return Success;
 	}
 
@@ -245,7 +245,7 @@ public class BackPropagationNet  {
 		}
 		data_obj = new DataNet();
 		if (!data_obj.SetInputOutput(test_sort5.getTest_group(), test_sort5.getOutput_test(), 3))
-			return;
+		return;
 		back_prop_obj.TestNet(data_obj, outStreamS5);
 		outStreamS5.close();
 

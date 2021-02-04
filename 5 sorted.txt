@@ -1,27 +1,27 @@
 Start Train 5 sorted study groups
 Training loop num : 1
-46% success
+26% success
 
 Training loop num : 2
-46% success
+40% success
 
 Training loop num : 3
-53% success
+33% success
 
 Training loop num : 4
-53% success
+40% success
 
 Training loop num : 5
-66% success
+53% success
 
 Training loop num : 6
-80% success
+66% success
 
 Training loop num : 7
-80% success
+73% success
 
 Training loop num : 8
-86% success
+73% success
 
 Training loop num : 9
 86% success
@@ -29,4 +29,4 @@ Training loop num : 9
 Training loop num : 10
 93% success
 
-33% success
+33% TestNet Success :
