@@ -9,6 +9,11 @@ import java.io.OutputStream;
 import java.util.*;
 
 public class BackPropagationNet  {
+	//*====== add
+	public int Output_Shapes = 3;
+	public int TrainPatt = 50;
+	public int TestPatt = 10;
+
 	//*-----------Final variables-------------
 	public final int Low = -1;
 	public final int Hi = 1;
@@ -18,18 +23,22 @@ public class BackPropagationNet  {
 
 	//*-----------Local variables-------------
 	private double nu; //The learning rate parameter.
+	private double Threshold;
 	private int OutputLayer;
 	private boolean NetError;
 	private double[] HiddenLayer;
+//	private double[] HiddenLayer2;
 	private double[] WeigthsOut;
 	private int[] InputLayer;
 	private double[][] WeigthsHidd;
+//	private double[][] WeigthsHidd2;
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
 		this.nu=0.1;
 		this.InputLayer=new int[101];// 100 input neurons.
 		this.HiddenLayer =new double [51];
+//		this.HiddenLayer2 =new double [51]; //50 hidden neurons.
 		this.WeigthsOut=new double[51];// weights of the output neuron.
 		this.WeigthsHidd = new double[51][101];//weights of the hidden neurons.
 		this.OutputLayer=100;//
@@ -41,6 +50,7 @@ public class BackPropagationNet  {
 
 	private double RandomEqualReal(double Low, double High) {
 		double ans= ((double) Math.random()) * (High - Low) + Low;
+		System.out.println("weight "+ans);
 		return ans;
 	}
 	private double sigmoid(double Sum){
@@ -71,6 +81,11 @@ public class BackPropagationNet  {
 		for(int n=0; n < HiddenNeurons; n++)
 			Sum += WeigthsOut[n] * HiddenLayer[n];
 
+		//System.out.println("sum "+tanh (Sum));
+		//Make decision about output neuron.
+		System.out.println("sum "+Sum);
+		System.out.println("sigmoid(Sum) "+sigmoid(Sum));
+
 		if (sigmoid(Sum)>=0.0 && sigmoid(Sum)<third ){
 			this.OutputLayer = 0; // for triangular(mesolash)
 		}
@@ -88,7 +103,7 @@ public class BackPropagationNet  {
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
-		if((Target - this.OutputLayer) != 0)
+		if(((double)Target - this.OutputLayer) != 0.0)
 			this.NetError = true;
 		else
 			this.NetError = false;
@@ -105,7 +120,7 @@ public class BackPropagationNet  {
 		out_delta = divSigmoid(OutputLayer) * (Target - OutputLayer);
 
 		for(i=0; i < HiddenNeurons; i++)
-			hidd_deltas[i] = divSigmoid(HiddenLayer[i]) * out_delta * WeigthsOut[i];
+			hidd_deltas[i] = divSigmoid(OutputLayer) * out_delta * WeigthsOut[i];
 
 		//Change weigths.
 		for(i=0; i < HiddenNeurons; i++)
@@ -121,6 +136,7 @@ public class BackPropagationNet  {
 
 	//-------------Public methods--------------
 	public void Initialize() {
+		this.Threshold=0.8;
 		this.NetError=false;// no error at the beginning.
 		// init the weight array of the output layer: 50 weights.
 		for(int i=0;i<51;i++) {
@@ -150,7 +166,10 @@ public class BackPropagationNet  {
 				for(j=0; j < InputNeurons; j++)
 					InputLayer[j] = _data.Input[i][j];
 				CalculateOutput();
+				System.out.println("output "+ReturnOutput());
 				ItIsError(_data.Output[i]);
+				//If it was error, change weigths (Error = sum of errors in
+				//one cycle of train).
 				if(this.NetError)
 				{
 					Error ++;
@@ -185,7 +204,7 @@ public class BackPropagationNet  {
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
-		outStream.write(("Test network's success\n"+Success + "% success").getBytes());
+		outStream.write(("\n"+Success + "% success").getBytes());
 		return Success;
 	}
 
@@ -196,162 +215,192 @@ public class BackPropagationNet  {
 	public double LearningRate() {
 		return this.nu;
 	}
+	public double ThresholdValue() {
+		return this.Threshold;
+	}
+
 
 	public static void main(String[] args) throws IOException {
 
+
 		BackPropagationNet back_prop_obj = new BackPropagationNet();
 		boolean flag = true;
-		//-------------------------- 5 sorted
-		File path1 = new File("5 sorted one layer.txt");
+		//-------------------------- 4 sorted
+		File path1 = new File("4 sorted one layer.txt");
 		if (path1.exists()) {
 			path1.delete();
 		}  // delete if exist and create a new one
-		OutputStream outStreamS5 = new FileOutputStream(path1);
-		data test_sort5 = new data();
+		OutputStream outStreamS4 = new FileOutputStream(path1);
+		data test_sort4 = new data();
 		DataNet data_obj = new DataNet();
-		test_sort5.setStudy_group_sorted(5);
+		test_sort4.setStudy_group_sorted(4);
 		back_prop_obj.Initialize();
-		data test_shira= new data();
-		outStreamS5.write(("Start Train 5 sorted study groups").getBytes());
-		//---------- shira test----------//
-//		if(! data_obj.SetInputOutput(test_shira.getGroupShira(), test_shira.getOutPutGroupShira(), 12))
-//			return;
-//
-//		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
-//			back_prop_obj.Initialize();
-//		}
-//		if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getTestOutPut(), 3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamS5);
-//		outStreamS5.close();
-		if(! data_obj.SetInputOutput(test_sort5.getStudy_group(), test_sort5.output_result, 15))
+		outStreamS4.write(("Start Train 4 sorted study groups- one layer").getBytes());
+		if (!data_obj.SetInputOutput(test_sort4.getStudy_group(), test_sort4.getOutput_result(), 12))
 			return;
 
-		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
+		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS4))) {
 			back_prop_obj.Initialize();
 		}
 		data_obj = new DataNet();
-		if (!data_obj.SetInputOutput(test_sort5.getTest_group(), test_sort5.getOutput_test(), 3))
+		if (!data_obj.SetInputOutput(test_sort4.getTest_group1(), test_sort4.getOutput_test1(), 3))
 			return;
-		back_prop_obj.TestNet(data_obj, outStreamS5);
-		outStreamS5.close();
+		outStreamS4.write(("Start test 4 sorted study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS4);
+		data_obj = new DataNet();
+		if (!data_obj.SetInputOutput(test_sort4.getTest_group2(), test_sort4.getOutput_test2(), 6))
+			return;
+		outStreamS4.write(("Start test 4 sorted study groups with 2 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS4);
+		outStreamS4.close();
 
-//
-//		//-------------------------- 10 sorted
-//		back_prop_obj =new BackPropagationNet();
-//		back_prop_obj.Initialize();
-//		File path2 = new File("10 sorted.txt");
-//		if(path2.exists()){ path2.delete();}  // delete if exist and create a new one
-//		OutputStream outStreamS10 = new FileOutputStream(path2);
-//		data test_sort10 = new data();
-//		data_obj = new DataNet();
-//		test_sort10.setStudy_group_sorted(10);
-//		outStreamS10.write(("Start Train 10 sorted study groups").getBytes());
-//		if(! data_obj.SetInputOutput(test_sort10.getStudy_group(), test_sort10.output_result, 30))
-//			return;
-//		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamS10 )))
-//		{
-//			back_prop_obj.Initialize();
-//		}
-//
-//		data_obj = new DataNet();
-//		if(!data_obj.SetInputOutput(test_sort10.getTest_group(),test_sort10.output_test,3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamS10 );
-//		outStreamS10.close();
-//
-//
-//		//-------------------------- 19 sorted
-//		back_prop_obj =new BackPropagationNet();
-//		back_prop_obj.Initialize();
-//		File path3 = new File("19 sorted.txt");
-//		if(path3.exists()){ path3.delete();}  // delete if exist and create a new one
-//		OutputStream outStreamS19 = new FileOutputStream(path3);
-//		data test_sort19 = new data();
-//		data_obj = new DataNet();
-//		test_sort19.setStudy_group_sorted(19);
-//		outStreamS19.write(("Start Train 19 sorted study groups").getBytes());
-//		if(! data_obj.SetInputOutput(test_sort19.getStudy_group(), test_sort19.getOutput_result(), 19*3))
-//			return;
-//		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamS19 )))
-//		{
-//			back_prop_obj.Initialize();
-//		}
-//		data_obj = new DataNet();
-//		if(!data_obj.SetInputOutput(test_sort19.getTest_group(),test_sort19.getOutput_test(),3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamS19 );
-//		outStreamS19.close();
-//
-//		//-------------------------- 5 random
-//		back_prop_obj =new BackPropagationNet();
-//		back_prop_obj.Initialize();
-//		File path4 = new File("5 random.txt");
-//		if(path4.exists()){ path4.delete();}  // delete if exist and create a new one
-//		OutputStream outStreamR5 = new FileOutputStream(path4);
-//		data test_random5 = new data();
-//		data_obj = new DataNet();
-//		test_random5.setStudy_group_random(5);
-//		outStreamR5.write(("Start Train 5 random study groups").getBytes());
-//		if(! data_obj.SetInputOutput(test_random5.getStudy_group(), test_random5.getOutput_result(), 15))
-//			return;
-//		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR5 )))
-//		{
-//			back_prop_obj.Initialize();
-//		}
-//		data_obj = new DataNet();
-//		if(!data_obj.SetInputOutput(test_random5.getTest_group(),test_random5.getOutput_test(),3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamR5 );
-//		outStreamS5.close();
-//
-//
-//
-//		//-------------------------- 10 random
-//		back_prop_obj =new BackPropagationNet();
-//		back_prop_obj.Initialize();
-//		File path5 = new File("10 random.txt");
-//		if(path5.exists()){ path5.delete();}  // delete if exist and create a new one
-//		OutputStream outStreamR10 = new FileOutputStream(path5);
-//		data test_random10 = new data();
-//		data_obj = new DataNet();
-//		test_random10.setStudy_group_random(10);
-//		outStreamR10.write(("Start Train 10 random study groups").getBytes());
-//		if(! data_obj.SetInputOutput(test_random10.getStudy_group(), test_random10.getOutput_result(), 30))
-//			return;
-//		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR10 )))
-//		{
-//			back_prop_obj.Initialize();
-//		}
-//		data_obj = new DataNet();
-//		if(!data_obj.SetInputOutput(test_random10.getTest_group(),test_random10.getOutput_test(),3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamR10 );
-//		outStreamR10.close();
-//
-//
-//		//-------------------------- 19 random
-//		back_prop_obj =new BackPropagationNet();
-//		back_prop_obj.Initialize();
-//		File path6 = new File("19 random.txt");
-//		if(path6.exists()){ path6.delete();}  // delete if exist and create a new one
-//		OutputStream outStreamR19 = new FileOutputStream(path6);
-//		data test_random19 = new data();
-//		data_obj = new DataNet();
-//		test_random19.setStudy_group_random(19);
-//		outStreamR19.write(("Start Train 19 random study groups").getBytes());
-//		if(! data_obj.SetInputOutput(test_random19.getStudy_group(), test_random19.getOutput_result(), 19*3))
-//			return;
-//		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR19 )))
-//		{
-//			back_prop_obj.Initialize();
-//		}
-//		data_obj = new DataNet();
-//		if(!data_obj.SetInputOutput(test_random19.getTest_group(),test_random19.getOutput_test(),3))
-//			return;
-//		back_prop_obj.TestNet(data_obj, outStreamR19 );
-//		outStreamR19.close();
-//	}
+
+		//-------------------------- 9 sorted
+		back_prop_obj = new BackPropagationNet();
+		back_prop_obj.Initialize();
+		File path2 = new File("9 sorted one layer.txt");
+		if (path2.exists()) {
+			path2.delete();
+		}  // delete if exist and create a new one
+		OutputStream outStreamS9 = new FileOutputStream(path2);
+		data test_sort9 = new data();
+		data_obj = new DataNet();
+		test_sort9.setStudy_group_sorted(9);
+		outStreamS9.write(("Start Train 9 sorted study groups- one layer").getBytes());
+		if (!data_obj.SetInputOutput(test_sort9.getStudy_group(), test_sort9.getOutput_result(), 27))
+			return;
+		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS9))) {
+			back_prop_obj.Initialize();
+		}
+
+		data_obj = new DataNet();
+		if (!data_obj.SetInputOutput(test_sort9.getTest_group1(), test_sort9.getOutput_test1(), 3))
+			return;
+		outStreamS9.write(("Start test 9 sorted study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS9);
+		data_obj = new DataNet();
+		if (!data_obj.SetInputOutput(test_sort9.getTest_group2(), test_sort9.getOutput_test2(), 6))
+			return;
+		outStreamS9.write(("Start test 9 sorted study groups with 2 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS9);
+		outStreamS9.close();
+
+
+		//-------------------------- 15 sorted
+		back_prop_obj =new BackPropagationNet();
+		back_prop_obj.Initialize();
+		File path3 = new File("15 sorted one layer.txt");
+		if(path3.exists()){ path3.delete();}  // delete if exist and create a new one
+		OutputStream outStreamS15 = new FileOutputStream(path3);
+		data test_sort15 = new data();
+		data_obj = new DataNet();
+		test_sort15.setStudy_group_sorted(15);
+		outStreamS15.write(("Start Train 15 sorted study groups- one layer").getBytes());
+		if(! data_obj.SetInputOutput(test_sort15.getStudy_group(), test_sort15.getOutput_result(), 15*3))
+			return;
+		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamS15 )))
+		{
+			back_prop_obj.Initialize();
+		}
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_sort15.getTest_group1(),test_sort15.getOutput_test1(),3))
+			return;
+		outStreamS15.write(("Start test 15 sorted study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS15 );
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_sort15.getTest_group2(),test_sort15.getOutput_test2(),6))
+			return;
+		outStreamS15.write(("Start test 15 sorted study groups with 2 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamS15 );
+		outStreamS15.close();
+
+		//-------------------------- 4 random
+		back_prop_obj =new BackPropagationNet();
+		back_prop_obj.Initialize();
+		File path4 = new File("4 random one layer.txt");
+		if(path4.exists()){ path4.delete();}  // delete if exist and create a new one
+		OutputStream outStreamR4 = new FileOutputStream(path4);
+		data test_random4 = new data();
+		data_obj = new DataNet();
+		test_random4.setStudy_group_random(4);
+		outStreamR4.write(("Start Train 4 random study groups- one layer").getBytes());
+		if(! data_obj.SetInputOutput(test_random4.getStudy_group(), test_random4.getOutput_result(), 12))
+			return;
+		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR4 )))
+		{
+			back_prop_obj.Initialize();
+		}
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random4.getTest_group1(),test_random4.getOutput_test1(),3))
+			return;
+		outStreamR4.write(("Start test 4 random study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR4 );
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random4.getTest_group2(),test_random4.getOutput_test2(),6))
+			return;
+		outStreamR4.write(("Start test 4 random study groups with 2 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR4 );
+		outStreamS4.close();
+
+
+
+		//-------------------------- 9 random
+		back_prop_obj =new BackPropagationNet();
+		back_prop_obj.Initialize();
+		File path5 = new File("9 random one layer.txt");
+		if(path5.exists()){ path5.delete();}  // delete if exist and create a new one
+		OutputStream outStreamR9 = new FileOutputStream(path5);
+		data test_random9 = new data();
+		data_obj = new DataNet();
+		test_random9.setStudy_group_random(9);
+		outStreamR9.write(("Start Train 9 random study groups- one layer").getBytes());
+		if(! data_obj.SetInputOutput(test_random9.getStudy_group(), test_random9.getOutput_result(), 27))
+			return;
+		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR9 )))
+		{
+			back_prop_obj.Initialize();
+		}
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random9.getTest_group1(),test_random9.getOutput_test1(),3))
+			return;
+		outStreamR9.write(("Start test 9 random study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR9 );
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random9.getTest_group2(),test_random9.getOutput_test2(),6))
+			return;
+		outStreamR9.write(("Start test 9 random study groups with 2 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR9 );
+		outStreamR9.close();
+
+
+		//-------------------------- 15 random
+		back_prop_obj =new BackPropagationNet();
+		back_prop_obj.Initialize();
+		File path6 = new File("15 random one layer.txt");
+		if(path6.exists()){ path6.delete();}  // delete if exist and create a new one
+		OutputStream outStreamR15 = new FileOutputStream(path6);
+		data test_random15 = new data();
+		data_obj = new DataNet();
+		test_random15.setStudy_group_random(15);
+		outStreamR15.write(("Start Train 15 random study groups- one layer").getBytes());
+		if(! data_obj.SetInputOutput(test_random15.getStudy_group(), test_random15.getOutput_result(), 15*3))
+			return;
+		while( (flag != back_prop_obj.TrainNet( data_obj, outStreamR15 )))
+		{
+			back_prop_obj.Initialize();
+		}
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random15.getTest_group1(),test_random15.getOutput_test1(),3))
+			return;
+		outStreamR15.write(("Start test 15 random study groups with 1 group- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR15 );
+		data_obj = new DataNet();
+		if(!data_obj.SetInputOutput(test_random15.getTest_group2(),test_random15.getOutput_test2(),6))
+			return;
+		outStreamR15.write(("Start test 15 random study groups with 1 groups- one layer").getBytes());
+		back_prop_obj.TestNet(data_obj, outStreamR15 );
+		outStreamR15.close();
+
 	}
 
 }

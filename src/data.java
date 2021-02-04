@@ -4,12 +4,11 @@ import java.util.*;
 public class data {
     public String[][] study_group ;
     public String[][][] all_input;
-    public String[][] test_group;
+    public String[][] test_group1;
+    public String[][] test_group2;
     public String output_result;
-    public String output_test;
-    public String [][] testShira;
-    public String outPutGroupShira;
-    private String outPutTestShira;
+    public String output_test1;
+    public String output_test2;
     String[][] InputPattern1 = {{"----------",
             "----*-----",
             "----**----",
@@ -794,30 +793,20 @@ public class data {
         all_input[18] = InputPattern19;
         all_input[19] = InputPattern20;
         study_group = null;
-        test_group = null;
-        output_test = "";
+        test_group1 = null;
+        test_group2 = null;
+        output_test1 = "";
+        output_test2 = "";
         output_result = "";
+    }
 
-        outPutTestShira="*+_*+_";
-        outPutGroupShira="*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_";
-    }
-    public String getOutPutGroupShira(){
-        return this.outPutGroupShira;
-    }
-    public String[][] getGroupShira(){
-        return this.InputPatternShira;
-    }
-    public String[][] getTestShira(){
-        return this.testOutputShira;
-    }
-    public String getTestOutPut(){
-        return outPutTestShira;
-    }
     public void setStudy_group_sorted(int num) {
         if (num >= all_input.length) return;
-        test_group = new String[3][10];
+        test_group1 = new String[3][10];
+        test_group2 = new String[6][10];
         study_group = new String[num * 3][10];
-        output_test = "";
+        output_test1 = "";
+        output_test2 = "";
         output_result = "";
         int index = 0;
         for (int i = 0; i < num; i++) {
@@ -845,34 +834,61 @@ public class data {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
-                    test_group[i][k] = all_input[num][j][k];
+                    test_group1[i][k] = all_input[num][j][k];
+                    test_group2[i][k] = all_input[num][j][k];
                 }
                 switch (j){
                     case 0: {
-                        output_test += "*";
+                        output_test1 += "*";
+                        output_test2 += "*";
                         break;
                     }
                     case 1: {
-                        output_test += "+";
+                        output_test1 += "+";
+                        output_test2 += "+";
                         break;
                     }
                     case 2: {
-                        output_test += "_";
+                        output_test1 += "_";
+                        output_test2 += "_";
                         break;
                     }
                 }
             }
         }
-
+        num++;
+        for (int i = 3; i < 6; i++) {
+            for (int j = 0; j < all_input[num].length; j++) {
+                for (int k = 0; k < all_input[num][j].length; k++) {
+                    test_group2[i][k] = all_input[num][j][k];
+                }
+                switch (j) {
+                    case 0: {
+                        output_test2 += "*";
+                        break;
+                    }
+                    case 1: {
+                        output_test2 += "+";
+                        break;
+                    }
+                    case 2: {
+                        output_test2 += "_";
+                        break;
+                    }
+                }
+            }
+        }
     }
     public void setStudy_group_random(int num) {
         int n = 0;
         if (num >= all_input.length) return;
         int[] order_shape = new int[num * 3];
         int[] order_arr = setrandom(num);
-        test_group = new String[3][10];
+        test_group1 = new String[3][10];
+        test_group2 = new String[6][10];
         study_group = new String[num * 3][10];
-        output_test = "";
+        output_test1 = "";
+        output_test2 = "";
         output_result = "";
         for (int i = 0; i < num; i++) {
             for (int j = 0; j < all_input[i].length; j++) {
@@ -916,19 +932,45 @@ public class data {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
-                    test_group[i][k] = all_input[num][j][k];
+                    test_group1[i][k] = all_input[num][j][k];
+                    test_group2[i][k] = all_input[num][j][k];
                 }
                 switch (j) {
                     case 0: {
-                        output_test += "*";
+                        output_test1 += "*";
+                        output_test2 += "*";
                         break;
                     }
                     case 1: {
-                        output_test += "+";
+                        output_test1 += "+";
+                        output_test2 += "+";
                         break;
                     }
                     case 2: {
-                        output_test += "_";
+                        output_test1 += "_";
+                        output_test2 += "_";
+                        break;
+                    }
+                }
+            }
+        }
+        num++;
+        for (int i = 3; i < 6; i++) {
+            for (int j = 0; j < all_input[num].length; j++) {
+                for (int k = 0; k < all_input[num][j].length; k++) {
+                    test_group2[i][k] = all_input[num][j][k];
+                }
+                switch (j) {
+                    case 0: {
+                        output_test2 += "*";
+                        break;
+                    }
+                    case 1: {
+                        output_test2 += "+";
+                        break;
+                    }
+                    case 2: {
+                        output_test2 += "_";
                         break;
                     }
                 }
@@ -957,13 +999,19 @@ public class data {
     public String getOutput_result(){
         return output_result;
     }
-    public  String getOutput_test(){
-        return output_test;
+    public  String getOutput_test1(){
+        return output_test1;
+    }
+    public  String getOutput_test2(){
+        return output_test2;
     }
     public String[][] getStudy_group() {
         return study_group;
     }
-    public String[][] getTest_group(){
-        return test_group;
+    public String[][] getTest_group1(){
+        return test_group1;
+    }
+    public String[][] getTest_group2(){
+        return test_group2;
     }
 }
