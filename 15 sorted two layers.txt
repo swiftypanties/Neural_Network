@@ -1,0 +1,43 @@
+
+Start Train 15 sorted study groups- Two layers
+Training loop num : 1
+35% success
+
+Training loop num : 2
+44% success
+
+Training loop num : 3
+40% success
+
+Training loop num : 4
+53% success
+
+Training loop num : 5
+46% success
+
+Training loop num : 6
+60% success
+
+Training loop num : 7
+73% success
+
+Training loop num : 8
+80% success
+
+Training loop num : 9
+68% success
+
+Training loop num : 10
+77% success
+
+Training loop num : 11
+75% success
+
+Training loop num : 12
+91% success
+
+Start test 15 sorted study groups with 1 group- Two layers
+Testing loop num : 0 with the success of: 66
+Testing loop num : 1 with the success of: 33
+Testing loop num : 2 with the success of: 0
+0% success

@@ -1,0 +1,62 @@
+Start Train 15 random study groups- one layer
+Training loop num : 1
+31% success
+
+Training loop num : 2
+37% success
+
+Training loop num : 3
+44% success
+
+Training loop num : 4
+46% success
+
+Training loop num : 5
+55% success
+
+Training loop num : 6
+51% success
+
+Training loop num : 7
+60% success
+
+Training loop num : 8
+66% success
+
+Training loop num : 9
+66% success
+
+Training loop num : 10
+66% success
+
+Training loop num : 11
+73% success
+
+Training loop num : 12
+80% success
+
+Training loop num : 13
+80% success
+
+Training loop num : 14
+86% success
+
+Training loop num : 15
+80% success
+
+Training loop num : 16
+82% success
+
+Training loop num : 17
+88% success
+
+Training loop num : 18
+75% success
+
+Training loop num : 19
+77% success
+
+Training loop num : 20
+93% success
+Start test 15 random study groups with 1 group- one layer
+66% success

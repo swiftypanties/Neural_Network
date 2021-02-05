@@ -7,9 +7,6 @@ public class data {
     public String[][] test_group;
     public String output_result;
     public String output_test;
-    public String [][] testShira;
-    public String outPutGroupShira;
-    private String outPutTestShira;
     String[][] InputPattern1 = {{"----------",
             "----*-----",
             "----**----",
@@ -614,192 +611,6 @@ public class data {
                     "----------",
                     "----------"}};
 
-    String[][] testOutputShira={
-            {"----------",
-                    "----*-----",
-                    "----**----",
-                    "----*-*---",
-                    "----*--*--",
-                    "----*---*-",
-                    "----******",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "---****---",
-                    "--*----*--",
-                    "-*------*-",
-                    "**********",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "-********-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-********-",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "-*--------",
-                    "-**-------",
-                    "-*-*------",
-                    "-*--*-----",
-                    "-*****----"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----***---",
-                    "---*---*--",
-                    "--*-----*-",
-                    "-*********"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "-********-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-*------*-",
-                    "-********-",
-                    "----------"}};
-
-
-    String[][] InputPatternShira = {{"----------",
-            "----------",
-            "----------",
-            "-------*--",
-            "------*-*-",
-            "-----*****",
-            "----------",
-            "----------",
-            "----------",
-            "----------"},
-            {"----------",
-                    "----------",
-                    "---------*",
-                    "--------**",
-                    "-------*-*",
-                    "------*--*",
-                    "------*--*",
-                    "------*--*",
-                    "------*--*",
-                    "---------*"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "------****",
-                    "------*--*",
-                    "-----*---*",
-                    "------*--*",
-                    "------*-*-",
-                    "------*-*-",
-                    "------****"},
-            {"----*-----",
-                    "---*-**---",
-                    "--*-------",
-                    "-*-----*--",
-                    "***----**-",
-                    "---****---",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "-----*----",
-                    "-----***--",
-                    "----*--*--",
-                    "---*----*-",
-                    "---******-",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----*-----",
-                    "-***-****-",
-                    "-*------*-",
-                    "-*-----*--",
-                    "-*------*-",
-                    "-*****--*-",
-                    "------**--",
-                    "----------"},
-
-            {"----*-----",
-                    "---*-*----",
-                    "--*---*---",
-                    "-*-----*--",
-                    "-****-**--",
-                    "-----*----",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "----******",
-                    "----*----*",
-                    "-----*---*",
-                    "------***-",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "-----****-",
-                    "-----*--*-",
-                    "-----*--*-",
-                    "-----*--*-",
-                    "-----****-",
-                    "----------",
-                    "----------"},
-            {"----------",
-                    "----------",
-                    "----------",
-                    "-*********",
-                    "--*-----*-",
-                    "---*---*--",
-                    "----*-*---",
-                    "-----*----",
-                    "----------",
-                    "----------"},
-            {"----***---",
-                    "---*---*--",
-                    "--*-----*-",
-                    "-**--****-",
-                    "---**-----",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------"},
-            {"----****--",
-                    "---*---*--",
-                    "---*----*-",
-                    "---*---*--",
-                    "---*****--",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------",
-                    "----------"}};
-
-
     public data(){
 
         all_input =new String[20][3][10];
@@ -827,22 +638,8 @@ public class data {
         test_group = null;
         output_test = "";
         output_result = "";
+    }
 
-        outPutTestShira="*+_*+_";
-        outPutGroupShira="*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_*+_";
-    }
-    public String getOutPutGroupShira(){
-        return this.outPutGroupShira;
-    }
-    public String[][] getGroupShira(){
-        return this.InputPatternShira;
-    }
-    public String[][] getTestShira(){
-        return this.testOutputShira;
-    }
-    public String getTestOutPut(){
-        return outPutTestShira;
-    }
     public void setStudy_group_sorted(int num) {
         if (num >= all_input.length) return;
         test_group = new String[3][10];
@@ -872,28 +669,26 @@ public class data {
                 index++;
             }
         }
-        for (int i = 0; i < 3; i++) {
+
             for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
-                    test_group[i][k] = all_input[num][j][k];
+                    test_group[j][k] = all_input[num][j][k];
                 }
-                switch (j){
-                    case 0: {
-                        output_test += "*";
-                        break;
-                    }
-                    case 1: {
-                        output_test += "+";
-                        break;
-                    }
-                    case 2: {
-                        output_test += "_";
-                        break;
-                    }
+            switch (j) {
+                case 0: {
+                    output_test += "*";
+                    break;
+                }
+                case 1: {
+                    output_test += "+";
+                    break;
+                }
+                case 2: {
+                    output_test += "_";
+                    break;
                 }
             }
         }
-
     }
     public void setStudy_group_random(int num) {
         int n = 0;
@@ -927,7 +722,6 @@ public class data {
             }
         }
         for (int i = 0; i < order_shape.length; i++) {
-//            System.out.println(order_shape[i]);
             switch (order_shape[i]) {
                 case 0: {
                     output_result += "*";
@@ -943,24 +737,22 @@ public class data {
                 }
             }
         }
-        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < all_input[num].length; j++) {
                 for (int k = 0; k < all_input[num][j].length; k++) {
-                    test_group[i][k] = all_input[num][j][k];
+                    test_group[j][k] = all_input[num][j][k];
                 }
-                switch (j) {
-                    case 0: {
-                        output_test += "*";
-                        break;
-                    }
-                    case 1: {
-                        output_test += "+";
-                        break;
-                    }
-                    case 2: {
-                        output_test += "_";
-                        break;
-                    }
+            switch (j) {
+                case 0: {
+                    output_test += "*";
+                    break;
+                }
+                case 1: {
+                    output_test += "+";
+                    break;
+                }
+                case 2: {
+                    output_test += "_";
+                    break;
                 }
             }
         }
@@ -987,13 +779,20 @@ public class data {
     public String getOutput_result(){
         return output_result;
     }
-    public  String getOutput_test(){
+    public  String getOutput_test1(){
         return output_test;
     }
     public String[][] getStudy_group() {
         return study_group;
     }
-    public String[][] getTest_group(){
+    public String[][] getTest_group1(){
         return test_group;
+    }
+    public void print(String[][] s){
+        for(int i=0;i<s.length;i++){
+            for(int j =0;j<s[i].length;j++){
+                System.out.println(s[i][j]);
+            }
+        }
     }
 }
