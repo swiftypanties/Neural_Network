@@ -225,7 +225,7 @@ public class BackPropagationNetTwoLayer  {
                 Error ++;
         }
         Success = ((_data.units - Error)*100) / _data.units;
-        outStream.write(("\n"+Success + "% success").getBytes());
+        outStream.write(("\n"+Success + "% success\n").getBytes());
         return Success;
     }
 
@@ -263,11 +263,6 @@ public class BackPropagationNetTwoLayer  {
             return;
         outStreamS4.write(("Start test 4 sorted study groups with 1 group- Two layers").getBytes());
         back_prop_obj.TestNet(data_obj, outStreamS4);
-        data_obj = new DataNet();
-        if (!data_obj.SetInputOutput(test_sort4.getTest_group2(), test_sort4.getOutput_test2(), 6))
-            return;
-        outStreamS4.write(("Start test 4 sorted study groups with 2 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamS4);
         outStreamS4.close();
 
 
@@ -294,11 +289,6 @@ public class BackPropagationNetTwoLayer  {
             return;
         outStreamS9.write(("Start test 9 sorted study groups with 1 group- Two layers").getBytes());
         back_prop_obj.TestNet(data_obj, outStreamS9);
-        data_obj = new DataNet();
-        if (!data_obj.SetInputOutput(test_sort9.getTest_group2(), test_sort9.getOutput_test2(), 6))
-            return;
-        outStreamS9.write(("Start test 9 sorted study groups with 2 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamS9);
         outStreamS9.close();
 
 
@@ -323,11 +313,6 @@ public class BackPropagationNetTwoLayer  {
 			return;
         outStreamS15.write(("Start test 15 sorted study groups with 1 group- Two layers").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamS15 );
-        data_obj = new DataNet();
-        if(!data_obj.SetInputOutput(test_sort15.getTest_group2(),test_sort15.getOutput_test2(),6))
-            return;
-        outStreamS15.write(("Start test 15 sorted study groups with 2 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamS15 );
 		outStreamS15.close();
 
 		//-------------------------- 4 random
@@ -351,11 +336,6 @@ public class BackPropagationNetTwoLayer  {
 			return;
         outStreamR4.write(("Start test 4 random study groups with 1 group- Two layers").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR4 );
-        data_obj = new DataNet();
-        if(!data_obj.SetInputOutput(test_random4.getTest_group2(),test_random4.getOutput_test2(),6))
-            return;
-        outStreamR4.write(("Start test 4 random study groups with 2 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamR4 );
 		outStreamS4.close();
 
 
@@ -381,11 +361,6 @@ public class BackPropagationNetTwoLayer  {
 			return;
         outStreamR9.write(("Start test 9 random study groups with 1 group- Two layers").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR9 );
-        data_obj = new DataNet();
-        if(!data_obj.SetInputOutput(test_random9.getTest_group2(),test_random9.getOutput_test2(),6))
-            return;
-        outStreamR9.write(("Start test 9 random study groups with 2 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamR9 );
 		outStreamR9.close();
 
 
@@ -410,11 +385,6 @@ public class BackPropagationNetTwoLayer  {
 			return;
         outStreamR15.write(("Start test 15 random study groups with 1 group- Two layers").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR15 );
-        data_obj = new DataNet();
-        if(!data_obj.SetInputOutput(test_random15.getTest_group2(),test_random15.getOutput_test2(),6))
-            return;
-        outStreamR15.write(("Start test 15 random study groups with 1 groups- Two layers").getBytes());
-        back_prop_obj.TestNet(data_obj, outStreamR15 );
 		outStreamR15.close();
 
     }

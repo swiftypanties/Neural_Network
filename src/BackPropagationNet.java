@@ -27,18 +27,16 @@ public class BackPropagationNet  {
 	private int OutputLayer;
 	private boolean NetError;
 	private double[] HiddenLayer;
-//	private double[] HiddenLayer2;
 	private double[] WeigthsOut;
 	private int[] InputLayer;
 	private double[][] WeigthsHidd;
-//	private double[][] WeigthsHidd2;
+
 
 	//*-----------Constructor-------------
 	public BackPropagationNet() {
 		this.nu=0.1;
 		this.InputLayer=new int[101];// 100 input neurons.
 		this.HiddenLayer =new double [51];
-//		this.HiddenLayer2 =new double [51]; //50 hidden neurons.
 		this.WeigthsOut=new double[51];// weights of the output neuron.
 		this.WeigthsHidd = new double[51][101];//weights of the hidden neurons.
 		this.OutputLayer=100;//
@@ -50,7 +48,6 @@ public class BackPropagationNet  {
 
 	private double RandomEqualReal(double Low, double High) {
 		double ans= ((double) Math.random()) * (High - Low) + Low;
-		System.out.println("weight "+ans);
 		return ans;
 	}
 	private double sigmoid(double Sum){
@@ -81,10 +78,7 @@ public class BackPropagationNet  {
 		for(int n=0; n < HiddenNeurons; n++)
 			Sum += WeigthsOut[n] * HiddenLayer[n];
 
-		//System.out.println("sum "+tanh (Sum));
-		//Make decision about output neuron.
-		System.out.println("sum "+Sum);
-		System.out.println("sigmoid(Sum) "+sigmoid(Sum));
+//		//Make decision about output neuron.
 
 		if (sigmoid(Sum)>=0.0 && sigmoid(Sum)<third ){
 			this.OutputLayer = 0; // for triangular(mesolash)
@@ -103,7 +97,7 @@ public class BackPropagationNet  {
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
-		if(((double)Target - this.OutputLayer) != 0.0)
+		if((Target - this.OutputLayer) != 0)
 			this.NetError = true;
 		else
 			this.NetError = false;
@@ -166,7 +160,6 @@ public class BackPropagationNet  {
 				for(j=0; j < InputNeurons; j++)
 					InputLayer[j] = _data.Input[i][j];
 				CalculateOutput();
-				System.out.println("output "+ReturnOutput());
 				ItIsError(_data.Output[i]);
 				//If it was error, change weigths (Error = sum of errors in
 				//one cycle of train).
@@ -204,7 +197,7 @@ public class BackPropagationNet  {
 				Error ++;
 		}
 		Success = ((_data.units - Error)*100) / _data.units;
-		outStream.write(("\n"+Success + "% success").getBytes());
+		outStream.write(("\n"+Success + "% success\n").getBytes());
 		return Success;
 	}
 
@@ -247,11 +240,6 @@ public class BackPropagationNet  {
 			return;
 		outStreamS4.write(("Start test 4 sorted study groups with 1 group- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamS4);
-		data_obj = new DataNet();
-		if (!data_obj.SetInputOutput(test_sort4.getTest_group2(), test_sort4.getOutput_test2(), 6))
-			return;
-		outStreamS4.write(("Start test 4 sorted study groups with 2 groups- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamS4);
 		outStreamS4.close();
 
 
@@ -278,11 +266,6 @@ public class BackPropagationNet  {
 			return;
 		outStreamS9.write(("Start test 9 sorted study groups with 1 group- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamS9);
-		data_obj = new DataNet();
-		if (!data_obj.SetInputOutput(test_sort9.getTest_group2(), test_sort9.getOutput_test2(), 6))
-			return;
-		outStreamS9.write(("Start test 9 sorted study groups with 2 groups- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamS9);
 		outStreamS9.close();
 
 
@@ -307,11 +290,6 @@ public class BackPropagationNet  {
 			return;
 		outStreamS15.write(("Start test 15 sorted study groups with 1 group- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamS15 );
-		data_obj = new DataNet();
-		if(!data_obj.SetInputOutput(test_sort15.getTest_group2(),test_sort15.getOutput_test2(),6))
-			return;
-		outStreamS15.write(("Start test 15 sorted study groups with 2 groups- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamS15 );
 		outStreamS15.close();
 
 		//-------------------------- 4 random
@@ -334,11 +312,6 @@ public class BackPropagationNet  {
 		if(!data_obj.SetInputOutput(test_random4.getTest_group1(),test_random4.getOutput_test1(),3))
 			return;
 		outStreamR4.write(("Start test 4 random study groups with 1 group- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamR4 );
-		data_obj = new DataNet();
-		if(!data_obj.SetInputOutput(test_random4.getTest_group2(),test_random4.getOutput_test2(),6))
-			return;
-		outStreamR4.write(("Start test 4 random study groups with 2 groups- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR4 );
 		outStreamS4.close();
 
@@ -365,11 +338,6 @@ public class BackPropagationNet  {
 			return;
 		outStreamR9.write(("Start test 9 random study groups with 1 group- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR9 );
-		data_obj = new DataNet();
-		if(!data_obj.SetInputOutput(test_random9.getTest_group2(),test_random9.getOutput_test2(),6))
-			return;
-		outStreamR9.write(("Start test 9 random study groups with 2 groups- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamR9 );
 		outStreamR9.close();
 
 
@@ -393,11 +361,6 @@ public class BackPropagationNet  {
 		if(!data_obj.SetInputOutput(test_random15.getTest_group1(),test_random15.getOutput_test1(),3))
 			return;
 		outStreamR15.write(("Start test 15 random study groups with 1 group- one layer").getBytes());
-		back_prop_obj.TestNet(data_obj, outStreamR15 );
-		data_obj = new DataNet();
-		if(!data_obj.SetInputOutput(test_random15.getTest_group2(),test_random15.getOutput_test2(),6))
-			return;
-		outStreamR15.write(("Start test 15 random study groups with 1 groups- one layer").getBytes());
 		back_prop_obj.TestNet(data_obj, outStreamR15 );
 		outStreamR15.close();
 
