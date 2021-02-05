@@ -1,12 +1,11 @@
+package backprop;
 
 import static java.lang.Math.exp;
-import static java.lang.Math.tanh;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
 
 public class BackPropagationNet  {
 	//*====== add

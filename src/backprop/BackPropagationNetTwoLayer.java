@@ -1,11 +1,11 @@
+package backprop;
+
 import static java.lang.Math.exp;
-import static java.lang.Math.tanh;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
 
 public class BackPropagationNetTwoLayer  {
 
@@ -225,11 +225,11 @@ public class BackPropagationNetTwoLayer  {
             if(this.NetError)
                 Error ++;
             Success = ((_data.units - Error)*100) / _data.units;
-            averageSuccess = averageSuccess + Success;
-            outStream.write(("\n"+"The Average test success rate is: " +(averageSuccess/i) + "%\n").getBytes());
+            averageSuccess = averageSuccess+Success;
+            outStream.write(("\n"+Success + "% success\n").getBytes());
         }
         Success = ((_data.units - Error)*100) / _data.units;
-        outStream.write(("\n"+(averageSuccess/i) + "% success\n").getBytes());
+        outStream.write(("\n"+"The Average test success rate is: " +(averageSuccess/i) + "%\n").getBytes());
         return Success;
     }
 

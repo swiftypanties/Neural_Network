@@ -1,3 +1,4 @@
+package backprop;
 
 public class DataNet {
     public int InputNeurons = 100;

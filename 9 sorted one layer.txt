@@ -1,29 +1,38 @@
 Start Train 9 sorted study groups- one layer
 Training loop num : 1
-48% success
+37% success
 
 Training loop num : 2
-48% success
+37% success
 
 Training loop num : 3
-77% success
+55% success
 
 Training loop num : 4
-81% success
+74% success
 
 Training loop num : 5
-77% success
+62% success
 
 Training loop num : 6
-77% success
+74% success
 
 Training loop num : 7
-100% success
+81% success
+
+Training loop num : 8
+77% success
+
+Training loop num : 9
+81% success
+
+Training loop num : 10
+92% success
 Start test 9 sorted study groups with 1 group- one layer
 100% success
 
 100% success
 
-100% success
+66% success
 
-The Average test success rate is:100%
+The Average test success rate is: 88%

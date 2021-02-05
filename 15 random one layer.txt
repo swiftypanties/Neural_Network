@@ -3,81 +3,66 @@ Training loop num : 1
 20% success
 
 Training loop num : 2
-33% success
+31% success
 
 Training loop num : 3
-42% success
+37% success
 
 Training loop num : 4
-55% success
+35% success
 
 Training loop num : 5
-57% success
+53% success
 
 Training loop num : 6
-62% success
+51% success
 
 Training loop num : 7
-60% success
+48% success
 
 Training loop num : 8
-64% success
-
-Training loop num : 9
-71% success
-
-Training loop num : 10
-62% success
-
-Training loop num : 11
-73% success
-
-Training loop num : 12
 66% success
 
+Training loop num : 9
+62% success
+
+Training loop num : 10
+73% success
+
+Training loop num : 11
+68% success
+
+Training loop num : 12
+71% success
+
 Training loop num : 13
-64% success
+71% success
 
 Training loop num : 14
-71% success
+73% success
 
 Training loop num : 15
-75% success
-
-Training loop num : 16
-68% success
-
-Training loop num : 17
-68% success
-
-Training loop num : 18
-71% success
-
-Training loop num : 19
-71% success
-
-Training loop num : 20
 77% success
 
-Training loop num : 21
-86% success
-
-Training loop num : 22
+Training loop num : 16
 80% success
 
-Training loop num : 23
+Training loop num : 17
 84% success
 
-Training loop num : 24
-86% success
+Training loop num : 18
+77% success
 
-Training loop num : 25
+Training loop num : 19
+84% success
+
+Training loop num : 20
 91% success
 Start test 15 random study groups with 1 group- one layer
 66% success
 
-66% success
+33% success
 
-66% success
+0% success
 
-The Average test success rate is:66%
+The Average test success rate is: 33%
