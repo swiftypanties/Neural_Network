@@ -1,23 +1,29 @@
 Start Train 4 random study groups- one layer
 Training loop num : 1
-33% success
+16% success
 
 Training loop num : 2
-41% success
+33% success
 
 Training loop num : 3
-41% success
+25% success
 
 Training loop num : 4
 50% success
 
 Training loop num : 5
-58% success
+75% success
 
 Training loop num : 6
 75% success
 
 Training loop num : 7
-100% success
+91% success
 Start test 4 random study groups with 1 group- one layer
-100% success
+66% success
+
+66% success
+
+66% success
+
+The Average test success rate is:66%

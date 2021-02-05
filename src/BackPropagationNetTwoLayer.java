@@ -209,9 +209,10 @@ public class BackPropagationNetTwoLayer  {
     }
 
     public int TestNet(DataNet _data, OutputStream outStream) throws IOException {
-        int Error = 0, j, Success;
+        int Error = 0, j, Success,i;
+        int averageSuccess = 0;
         //Train network (do one cycle).
-        for(int i=0; i < _data.units; i++)
+        for(i=0; i < _data.units; i++)
         {
             //Set current input.
             for(j=0; j < InputNeurons; j++)
@@ -224,10 +225,11 @@ public class BackPropagationNetTwoLayer  {
             if(this.NetError)
                 Error ++;
             Success = ((_data.units - Error)*100) / _data.units;
-            outStream.write(("\n"+"Testing loop num : "+ i+" with the success of: "+Success).getBytes());
+            averageSuccess = averageSuccess + Success;
+            outStream.write(("\n"+"The Average test success rate is: " +(averageSuccess/i) + "%\n").getBytes());
         }
         Success = ((_data.units - Error)*100) / _data.units;
-        outStream.write(("\n"+Success + "% success\n").getBytes());
+        outStream.write(("\n"+(averageSuccess/i) + "% success\n").getBytes());
         return Success;
     }
 
