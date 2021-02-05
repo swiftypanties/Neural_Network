@@ -88,13 +88,14 @@ public class BackPropagationNet  {
 
 	//NetError = true if it was error.
 	private void ItIsError(int Target){
-		if((Target - this.OutputLayer) != 0)
+		if((Target - OutputLayer) != 0)
 			this.NetError = true;
 		else
 			this.NetError = false;
 	}
 	private double divSigmoid(double OutputLayer){
-		return sigmoid(OutputLayer)*(1-sigmoid(OutputLayer));
+		double ans= sigmoid(OutputLayer)*(1-sigmoid(OutputLayer));
+		return ans;
 	}
 	private void AdjustWeights(int Target){
 		int i, j;
@@ -149,6 +150,7 @@ public class BackPropagationNet  {
 				//Set current input.
 				for(j=0; j < InputNeurons; j++)
 					InputLayer[j] = _data.Input[i][j];
+
 				CalculateOutput();
 				ItIsError(_data.Output[i]);
 				if(this.NetError)
@@ -189,7 +191,7 @@ public class BackPropagationNet  {
 		return Success;
 	}
 
-	public double ReturnOutput() {
+	public int ReturnOutput() {
 		return this.OutputLayer;
 	}
 
@@ -214,27 +216,26 @@ public class BackPropagationNet  {
 		data test_shira= new data();
 		outStreamS5.write(("Start Train 5 sorted study groups").getBytes());
 		//---------- shira test----------//
-//		if(! data_obj.SetInputOutput(test_shira.getGroupShira(), test_shira.getOutPutGroupShira(), 12))
+		if(! data_obj.SetInputOutput(test_shira.getGroupShira(), test_shira.getOutPutGroupShira(), 12))
+			return;
+		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
+			back_prop_obj.Initialize();
+		}
+		if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getTestOutPut(), 6))
+			return;
+		back_prop_obj.TestNet(data_obj, outStreamS5);
+		outStreamS5.close();
+//		if(! data_obj.SetInputOutput(test_sort5.getStudy_group(), test_sort5.output_result, 15))
 //			return;
 //
 //		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
 //			back_prop_obj.Initialize();
 //		}
-//		if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getTestOutPut(), 3))
+//		data_obj = new DataNet();
+//		if (!data_obj.SetInputOutput(test_sort5.getTest_group(), test_sort5.getOutput_test(), 3))
 //			return;
 //		back_prop_obj.TestNet(data_obj, outStreamS5);
 //		outStreamS5.close();
-		if(! data_obj.SetInputOutput(test_sort5.getStudy_group(), test_sort5.output_result, 15))
-			return;
-
-		while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
-			back_prop_obj.Initialize();
-		}
-		data_obj = new DataNet();
-		if (!data_obj.SetInputOutput(test_sort5.getTest_group(), test_sort5.getOutput_test(), 3))
-			return;
-		back_prop_obj.TestNet(data_obj, outStreamS5);
-		outStreamS5.close();
 
 //
 //		//-------------------------- 10 sorted

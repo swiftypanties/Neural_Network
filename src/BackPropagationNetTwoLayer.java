@@ -20,7 +20,7 @@ public class BackPropagationNetTwoLayer  {
     private double nu; //The learning rate parameter.
     private boolean NetError;
     // value and array of the output layer.
-    private int OutputLayer;
+    private double OutputLayer;
     private double[] WeigthsOut;
     // first hidden layer
     private double[] first_HiddenLayer;
@@ -102,7 +102,7 @@ public class BackPropagationNetTwoLayer  {
 
     //NetError = true if it was error.
     private void ItIsError(int Target){
-        if((Target - this.OutputLayer) != 0)
+        if(((double)Target - this.OutputLayer) != 0.0)
             this.NetError = true;
         else
             this.NetError = false;
@@ -253,17 +253,6 @@ public class BackPropagationNetTwoLayer  {
         data test_shira= new data();
         back_prop_obj.Initialize();
         outStreamS5.write(("Start Train 5 sorted study groups- Two layers").getBytes());
-//        if(! data_obj.SetInputOutput(test_shira.getGroupShira(), test_shira.getOutPutGroupShira(), 12))
-//            return;
-//
-//        while ((flag != back_prop_obj.TrainNet(data_obj, outStreamS5))) {
-//            back_prop_obj.Initialize();
-//        }
-//        if (!data_obj.SetInputOutput(test_shira.getTestShira(), test_shira.getTestOutPut(), 3))
-//            return;
-//        back_prop_obj.TestNet(data_obj, outStreamS5);
-//        outStreamS5.close();
-        ///
 
         if (!data_obj.SetInputOutput(test_sort5.getStudy_group(), test_sort5.output_result, 15))
             return;
